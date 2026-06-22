@@ -325,7 +325,9 @@ You should end up with a folder containing a `*-B_Cu` Gerber, an `*-Edge_Cuts` G
 ### Generating the toolpaths with srm-cam
 [`srm-cam`](https://github.com/MadsRudolph/srm-cam) reads your Gerber folder and writes the **toolpaths** the SRM-20 runs.
 
-#### First-time setup (once per PC)
+<details>
+<summary><b>First-time setup — installing srm-cam on your PC (click to expand)</b></summary>
+
 You need **[Git](https://git-scm.com/downloads)** and **[Python 3.10 or newer](https://www.python.org/downloads/)** installed first. When installing Python, tick **"Add python.exe to PATH"** on the first screen.
 
 Then open **PowerShell** and run these, one block at a time:
@@ -345,6 +347,8 @@ python -m venv .venv
 > [!NOTE]
 > These commands call the environment's Python directly (`.venv\Scripts\python`), so you do **not** have to "activate" anything and you won't hit PowerShell's *"running scripts is disabled"* warning.
 > On macOS or Linux, use `.venv/bin/python` instead of `.venv\Scripts\python`.
+
+</details>
 
 #### Launching srm-cam
 From inside the `srm-cam` folder, start the program with:
@@ -401,8 +405,8 @@ That single line is all you need every time — just `cd` into the `srm-cam` fol
 ### Preparing your PCB (CNC)
 The same as for the laser (see [Preparing your PCB](#preparing-your-pcb)), with two milling-specific points:
 
-- The mill cuts **all the way through** on the cut-out step, so you **must** place a flat **sacrificial backing board** underneath your PCB — otherwise you cut into the machine bed.
-- **Tape the whole back of the board down flat** with double-sided tape. Any gap or warp changes the cut depth and ruins the isolation.
+- The cut-out step mills **all the way through**, so there must be a flat **sacrificial surface** under the board — otherwise the bit cuts into the machine bed.
+- **The board is held by the bed's clamps — you don't need tape.** The SRM-20's bed has fixed **conical clamping brackets** that press against the board edges from each side so it can't slip; seat your board snugly between them. (A strip of double-sided tape underneath is an optional extra if you want it held even more firmly.) The board must sit **flat** — any gap or warp changes the cut depth and ruins the isolation.
 
 <br>
 
@@ -418,7 +422,7 @@ The SRM-20 is driven from the **VPanel** software. The whole board is cut from *
 
 2. **Set the command set** to match your files: `Setup → Command set →` **NC code** for `.nc`, or **RML-1** for `.rml`. Don't mix the two.
 
-3. Mount your taped-down board onto the sacrificial backing and fit the endmill.
+3. Seat your board in the bed's **clamping brackets** (on top of the sacrificial surface) so it's held flat, and fit the endmill.
 
 4. **Set the X/Y origin:** jog the spindle to the corner of your board and set the **X/Y origin** there (this becomes the *user origin*, i.e. `G54`).
 
