@@ -320,13 +320,17 @@ You should end up with a folder containing a `*-B_Cu` Gerber, an `*-Edge_Cuts` G
 [`srm-cam`](https://github.com/MadsRudolph/srm-cam) reads your Gerber folder and writes the **toolpaths** the SRM-20 runs. Install and launch it by following its own README (there is a one-click launcher).
 
 1. Open `srm-cam` and select your exported **Gerber folder**.
-2. Choose the **SRM-20 0,8 mm** preset, or set the bit diameter, clearance and depths to match your endmill.
-3. Export. You get three jobs:
+2. **Choose the machine** — this is what decides the output format:
+   - **Roland SRM-20 (G-code)** → produces **`.nc`** (G-code) files.
+   - **Roland SRM-20** (the normal one) → produces **`.rml`** (Roland RML-1) files.
+3. Choose the **SRM-20 0,8 mm** preset, or set the bit diameter, clearance and depths to match your endmill.
+4. Export. You get three jobs:
    - **traces** — isolates your copper,
    - **drill** — the component holes,
-   - **cut-out** — frees the board, leaving a few small **tabs** so it doesn't come loose mid-cut,
+   - **cut-out** — frees the board, leaving a few small **tabs** so it doesn't come loose mid-cut.
 
-   ...each in two formats: **`.nc`** (G-code) and **`.rml`** (Roland RML-1). Both run on the SRM-20 — just pick one command set and use it for the whole board.
+> [!IMPORTANT]
+> The machine you pick in `srm-cam` must match the **command set** you select on the SRM-20 in VPanel: G-code (`.nc`) files need **NC code**, RML (`.rml`) files need **RML-1**. The two are not interchangeable.
 
 > [!NOTE]
 > `srm-cam` also writes a short **run-plan** text file listing the order, the bit and the cut depth for each job. Read it before you start.
