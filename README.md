@@ -344,9 +344,7 @@ python -m venv .venv
 .venv\Scripts\python -m pip install -e ".[gui]"
 ```
 
-> [!NOTE]
-> These commands call the environment's Python directly (`.venv\Scripts\python`), so you do **not** have to "activate" anything and you won't hit PowerShell's *"running scripts is disabled"* warning.
-> On macOS or Linux, use `.venv/bin/python` instead of `.venv\Scripts\python`.
+> **Note:** these commands call the environment's Python directly (`.venv\Scripts\python`), so you do **not** have to "activate" anything and you won't hit PowerShell's *"running scripts is disabled"* warning. On macOS or Linux, use `.venv/bin/python` instead of `.venv\Scripts\python`.
 
 </details>
 
