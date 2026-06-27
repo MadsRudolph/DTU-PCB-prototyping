@@ -367,22 +367,12 @@ Open **SRM-CAM** from the Start menu or the desktop shortcut. (If you installed 
 
 ![srm-cam board loaded](images-for-guides/cnc-images/srmcam_load.png "Gerber folder loaded in srm-cam")
 
-2. **Choose the machine** — this decides the output format. **Use Roland SRM-20 (G-code)**; it's the default and the one we use.
-   - **Roland SRM-20 (G-code)** → **`.nc`** (G-code) files. **Recommended / default** — plain-millimetre coordinates and a standard G54 work origin.
-   - **Roland SRM-20** → **`.rml`** (Roland RML-1) files. A fallback only; you normally won't need it.
+2. **srm-cam opens already set up for the SRM-20** — *Roland SRM-20 (G-code)* output and the *SRM-20 0,8 mm* preset are the defaults, so you normally don't change anything. Just check that the bit diameter, clearance and depths suit your endmill and board. *(If you ever need Roland RML instead, switch the **Machine** dropdown to* Roland SRM-20 *— but G-code is what we use.)*
 
-![srm-cam machine dropdown](images-for-guides/cnc-images/srmcam_machine.png "Machine: Roland SRM-20 (G-code) vs Roland SRM-20")
+> [!NOTE]
+> By default every hole is drilled with the same 0,8 mm endmill (**single bit**): srm-cam **interpolates** (mills out a circle for) any hole wider than the bit, so you never have to stop and swap to a matching drill bit.
 
-3. Choose the **SRM-20 0,8 mm** preset, or set the bit diameter, clearance and depths to match your endmill.
-
-![srm-cam preset](images-for-guides/cnc-images/srmcam_preset.png "SRM-20 0,8 mm preset, Traces tab")
-
-> [!IMPORTANT]
-> On the **Drill** tab, tick **single bit** if you want to drill *every* hole with the same 0,8 mm endmill you used for the traces — even holes that are bigger than the bit. srm-cam **interpolates** (mills out a circle for) any hole wider than the bit, so you never have to stop and swap to a matching drill bit.
-
-![srm-cam single-bit drill setting](images-for-guides/cnc-images/srmcam_drill_singlebit.png "Drill tab: tick single bit")
-
-4. Click **Export toolpaths…**. You get three jobs:
+3. Click **Export toolpaths…**. You get three jobs:
    - **traces** — isolates your copper,
    - **drill** — the component holes,
    - **cut-out** — frees the board, leaving a few small **tabs** so it doesn't come loose mid-cut.
