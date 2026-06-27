@@ -325,12 +325,13 @@ You should end up with a folder containing a `*-B_Cu` Gerber, an `*-Edge_Cuts` G
 ### Generating the toolpaths with srm-cam
 [`srm-cam`](https://github.com/MadsRudolph/srm-cam) reads your Gerber folder and writes the **toolpaths** the SRM-20 runs.
 
+#### Install (one-time)
+Download the latest **`SRM-CAM-Setup-*.exe`** from the [srm-cam releases page](https://github.com/MadsRudolph/srm-cam/releases) and run it. It installs like any normal Windows program — you get Start-menu and desktop shortcuts, and **no Git or Python is needed**.
+
 <details>
-<summary><b>First-time setup — installing srm-cam on your PC (click to expand)</b></summary>
+<summary><b>Alternative: run from source (advanced)</b></summary>
 
-You need **[Git](https://git-scm.com/downloads)** and **[Python 3.10 or newer](https://www.python.org/downloads/)** installed first. When installing Python, tick **"Add python.exe to PATH"** on the first screen.
-
-Then open **PowerShell** and run these, one block at a time:
+If you'd rather run the code directly, install **[Git](https://git-scm.com/downloads)** and **[Python 3.10 or newer](https://www.python.org/downloads/)** first (tick **"Add python.exe to PATH"** when installing Python). Then open **PowerShell** and run these, one block at a time:
 
 ```powershell
 # 1. Download the tool
@@ -342,6 +343,9 @@ python -m venv .venv
 
 # 3. Install srm-cam and its interface into that environment
 .venv\Scripts\python -m pip install -e ".[gui]"
+
+# 4. Launch it (run this every time; cd into the srm-cam folder first)
+.venv\Scripts\python -m gerber2rml
 ```
 
 > **Note:** these commands call the environment's Python directly (`.venv\Scripts\python`), so you do **not** have to "activate" anything and you won't hit PowerShell's *"running scripts is disabled"* warning. On macOS or Linux, use `.venv/bin/python` instead of `.venv\Scripts\python`.
@@ -349,13 +353,10 @@ python -m venv .venv
 </details>
 
 #### Launching srm-cam
-From inside the `srm-cam` folder, start the program with:
+Open **SRM-CAM** from the Start menu or the desktop shortcut. (If you installed from source instead, run `.venv\Scripts\python -m gerber2rml` from the `srm-cam` folder.)
 
-```powershell
-.venv\Scripts\python -m gerber2rml
-```
-
-That single line is all you need every time — just `cd` into the `srm-cam` folder first. The setup above is only done once.
+> [!TIP]
+> The first time it opens, srm-cam runs a short **guided tour** on a demo board, so you can follow the steps below right in the program. Replay it any time with the **Guide** button in the top bar — and each page (Double-sided, Bed leveling, Rework) has its own Guide button for that topic.
 
 <br>
 
