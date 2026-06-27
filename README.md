@@ -267,6 +267,7 @@ The Roland monoFab **SRM-20** is a small desktop CNC mill. Instead of burning th
 - [Generating the toolpaths with srm-cam](#generating-the-toolpaths-with-srm-cam)
 - [Preparing your PCB](#preparing-your-pcb-cnc)
 - [Using the SRM-20](#using-the-srm-20)
+- [Double-sided boards (advanced)](#double-sided-boards-advanced)
 
 <br>
 
@@ -397,6 +398,11 @@ Open **SRM-CAM** from the Start menu or the desktop shortcut. (If you installed 
 > [!IMPORTANT]
 > The **cut-out depth must be larger than your board thickness** so the board actually comes free (about **2,3 mm** for a 1,6 mm board). The preset handles this, but double-check it matches your board.
 
+> [!TIP]
+> Before you go to the machine, open **Simulate 3D** (also on the **3D Viewer** page) to watch the bit run the whole job — a quick way to spot a wrong depth or a move that runs off the board.
+>
+> ![srm-cam 3D simulation](images-for-guides/cnc-images/srmcam_3dview.png "srm-cam's 3D toolpath simulation")
+
 ---
 
 <br>
@@ -432,9 +438,13 @@ VPanel's coordinate display (the dropdown in the top-left) can show three differ
 
 In short: the **user coordinate system** (used by RML) and **G54** (used by NC code) are both *the work origin you set* — just named differently by each command set. Set them to the **same board corner** and every job, `.nc` or `.rml`, lines up. The **machine coordinate system** is the fixed reference you only ever *read* (e.g. to check Z headroom), never cut from.
 
+![VPanel coordinate-system dropdown](images-for-guides/cnc-images/vpanel_coord_dropdown.png "VPanel's coordinate display: Machine / User / G54")
+
 1. Power on the machine and open **VPanel**.
 
 2. **Set the command set** to match your files: `Setup → Command set →` **NC code** for `.nc`, or **RML-1** for `.rml`. Don't mix the two.
+
+   ![VPanel command set](images-for-guides/cnc-images/vpanel_command_set.png "Setup dialog: Command set set to NC code")
 
 3. Seat your board in the bed's **clamping brackets** (on top of the sacrificial surface) so it's held flat, and fit the endmill.
 
@@ -447,6 +457,10 @@ In short: the **user coordinate system** (used by RML) and **G54** (used by NC c
    - **Tighten the collet**, being careful **not to push the bit upwards as you tighten** — nudging it up lifts the tip off the surface and ruins the Z-zero.
    - Set the **Z origin** here: the bit tip is now sitting exactly on the copper surface.
    - **Check you have enough downward travel left to reach full cut depth** (see the warning below): switch VPanel's coordinate display to **Machine Coordinate System** and read the Z value at the surface — it should be about **−55 mm or higher** (i.e. *less* negative). If it sits lower than that, raise the board and re-zero before cutting.
+
+   ![VPanel set Z origin (bit-drop method)](images-for-guides/cnc-images/vpanel_z_origin.png "Rest the loosened bit on the copper, then set the Z origin")
+
+   ![VPanel machine-Z headroom check](images-for-guides/cnc-images/vpanel_machine_z.png "Machine Coordinate System: the surface should read about −55 mm or higher")
 
 6. **Run the three jobs in order, from the same origin: traces → drill → cut-out.** They share the same endmill and X/Y origin, so **do not move or re-home the board between them**. If you swap the bit, **re-set only the Z origin** — never touch X/Y.
 
@@ -468,6 +482,29 @@ A correctly milled board looks like this — clean isolation channels around eve
 
 > [!TIP]
 > Want **silkscreen labels** (the component names) on top? Export the **F.Silkscreen** layer as a DXF (do **not** mirror it) and engrave it on the bare top side with the Fiber laser.
+
+<br>
+
+### Double-sided boards (advanced)
+> [!NOTE]
+> The course defaults to single-sided boards[^1]. Two-sided boards are possible on the SRM-20 but more fiddly — only attempt them after checking with the people responsible for the machine.
+
+For a two-sided board you mill the bottom, **flip the board left&#8596;right**, and mill the top from the *same* origin. srm-cam keeps the two sides aligned off two **dowel pins**, never the (never-quite-square) sheared board edge.
+
+![Double-sided flip](images-for-guides/cnc-images/double_sided_flip.png "The board flips left-right about the vertical axis; the dowels sit on that axis so they don't move")
+
+How it works, briefly:
+- The board flips **left-to-right about the vertical centre axis**. Two dowels sit **on** that axis (one above, one below the board), so they don't move when you flip.
+- srm-cam drills the dowel holes, mills the bottom **mirrored**, and mills the top as **plain F.Cu** (it reflects the top so it still lines up after the flip).
+- You re-seat the flipped board on the same pins and **re-zero only Z** — never X/Y.
+
+In srm-cam: export your board with an **F.Cu** layer present, tick **Double-sided**, and pick a **registration method**. The in-app **Guide → Double-sided** button walks through every setting:
+- **Dowel pins** (recommended) — the mill drills holes through the stock into the sacrificial bed; you seat pins and flip onto them. No measuring.
+- **Fiducial holes** — the mill drills stock-only corner holes; you flip, re-place freely, and probe where they actually landed so the top is fitted to the real position.
+
+![srm-cam double-sided page](images-for-guides/cnc-images/srmcam_doublesided.png "srm-cam's Double-sided page: method, registration scheme and view")
+
+srm-cam also writes a **`_runplan.txt`** with the exact pin sizes and the order to run the jobs (`_align` → bottom drill → `_bottom_traces` → **flip** → `_top_traces` → `_cutout` last). Follow it step by step, and re-zero **only Z** after the flip.
 
 
 
