@@ -496,6 +496,15 @@ In srm-cam: export your board with an **F.Cu** layer present, tick **Double-side
 
 srm-cam also writes a **`_runplan.txt`** with the exact pin sizes and the order to run the jobs (`_align` → bottom drill → `_bottom_traces` → **flip** → `_top_traces` → `_cutout` last). Follow it step by step, and re-zero **only Z** after the flip.
 
+Done right, both sides line up through the holes. Here's a finished double-sided board milled this way, held up to the light:
+
+<table>
+<tr>
+<td width="50%"><img src="images-for-guides/cnc-images/doublesided_bcu.jpg" alt="Bottom copper (B.Cu)"><br><sub><b>Bottom side — B.Cu</b></sub></td>
+<td width="50%"><img src="images-for-guides/cnc-images/doublesided_fcu.jpg" alt="Top copper (F.Cu)"><br><sub><b>Top side — F.Cu</b></sub></td>
+</tr>
+</table>
+
 
 
 
